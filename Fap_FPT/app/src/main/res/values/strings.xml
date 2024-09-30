@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FPT University Portal</string>
+
+    <!-- Main screen -->
+    <string name="university_name">FPT UNIVERSITY</string>
+    <string name="semester_schedule">Semester Schedule</string>
+    <string name="reports">Reports</string>
+    <string name="attendance_report">Attendance report</string>
+    <string name="mark_report">Mark Report</string>
+    <string name="extra_activities">Extra activities</string>
+
+    <string name="menu_icon_description">Menu</string>
+    <string name="fpt_logo_description">FPT Logo</string>
+    <string name="calendar_icon_description">Calendar Icon</string>
+    <string name="attendance_icon_description">Attendance Icon</string>
+    <string name="mark_icon_description">Mark Icon</string>
+    <string name="activities_icon_description">Activities Icon</string>
+    <string name="home_icon_description">Home</string>
+    <string name="chat_icon_description">Chat</string>
+    <string name="profile_icon_description">Profile</string>
+    <string name="appbar_scrolling_view_behavior">Scrolling View Behavior</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    
+    <string name="nav_header_desc">Nav Header</string>
+</resources>

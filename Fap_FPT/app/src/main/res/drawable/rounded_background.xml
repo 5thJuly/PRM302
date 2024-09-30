@@ -1,0 +1,5 @@
+<!-- res/drawable/rounded_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#DBA747" /> <!-- Background color of the navigation views -->
+    <corners android:radius="16dp" /> <!-- Corner radius for rounding -->
+</shape>
