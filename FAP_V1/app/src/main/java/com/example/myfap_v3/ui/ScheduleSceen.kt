@@ -1,13 +1,12 @@
 package com.example.myfap_v3.ui
 
-import androidx.compose.animation.animateColorAsState
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -20,17 +19,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import java.util.Calendar
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SchedulePage(scheduleViewModel: ScheduleViewModel) {
     val selectedDate by scheduleViewModel.selectedDate.observeAsState(Calendar.getInstance())
-    val scheduleItemsForToday = scheduleViewModel.getScheduleForSelectedDate()
+    val scheduleItemsForToday by scheduleViewModel.scheduleItems.observeAsState(emptyList())
     var selectedTab by remember { mutableStateOf(1) }
 
     Scaffold(
@@ -39,23 +37,6 @@ fun SchedulePage(scheduleViewModel: ScheduleViewModel) {
         bottomBar = {
             BottomNavBar(selectedTab = selectedTab) { tabIndex ->
                 selectedTab = tabIndex
-                when (tabIndex) {
-                    0 -> {
-                        // Logic cho Calendar
-                    }
-                    1 -> {
-                        // Logic cho Schedule (đang ở đây)
-                    }
-                    2 -> {
-                        // Logic cho Add
-                    }
-                    3 -> {
-                        // Logic cho Notifications
-                    }
-                    4 -> {
-                        // Logic cho Profile
-                    }
-                }
             }
         }
     ) { innerPadding ->
@@ -65,10 +46,14 @@ fun SchedulePage(scheduleViewModel: ScheduleViewModel) {
                 .padding(innerPadding)
         ) {
             WeekSelector(
-                selectedDay = selectedDate.get(Calendar.DAY_OF_WEEK),
+                selectedDay = selectedDate.get(Calendar.DAY_OF_WEEK) - 1, // Adjust for 0-indexed
                 onDaySelected = { day ->
                     val newDate = Calendar.getInstance()
-                    newDate.set(Calendar.DAY_OF_WEEK, day)
+                    newDate.set(Calendar.DAY_OF_WEEK, day + 1) // Adjust back to 1-indexed for Calendar
+                    newDate.set(Calendar.HOUR_OF_DAY, 0)
+                    newDate.set(Calendar.MINUTE, 0)
+                    newDate.set(Calendar.SECOND, 0)
+                    newDate.set(Calendar.MILLISECOND, 0)
                     scheduleViewModel.setSelectedDate(newDate)
                 }
             )
@@ -76,8 +61,6 @@ fun SchedulePage(scheduleViewModel: ScheduleViewModel) {
         }
     }
 }
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -127,10 +110,7 @@ fun WeekSelector(selectedDay: Int, onDaySelected: (Int) -> Unit) {
 
 @Composable
 fun DayItem(day: String, date: String, isSelected: Boolean, onSelected: () -> Unit) {
-    val backgroundColor by animateColorAsState(
-        if (isSelected) Color(0xFFFF4081) else Color.Transparent,
-        label = "backgroundColor"
-    )
+    val backgroundColor = if (isSelected) Color(0xFFFF4081) else Color.Transparent
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -154,53 +134,12 @@ fun DayItem(day: String, date: String, isSelected: Boolean, onSelected: () -> Un
     }
 }
 
-@Composable
-fun FilterChips(selectedFilter: String, onFilterSelected: (String) -> Unit) {
-    val filters = listOf("All", "Lectures", "Labs", "Seminars")
 
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(filters) { filter ->
-            FilterChip(
-                selected = filter == selectedFilter,
-                onClick = { onFilterSelected(filter) },
-                label = { Text(filter) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = Color(0xFFFF4081),
-                    selectedLabelColor = Color.White
-                )
-            )
-        }
-    }
-}
-
-@Composable
-fun ScheduleList(selectedDay: Int, selectedFilter: String) {
-    val scheduleItems = remember { generateScheduleItems() }
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(scheduleItems.filter {
-            (selectedFilter == "All" || it.type == selectedFilter) && it.day == selectedDay
-        }) { item ->
-            ScheduleItem(item)
-        }
-    }
-}
 
 @Composable
 fun ScheduleItem(item: ScheduleItemData) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
@@ -238,7 +177,7 @@ fun ScheduleItem(item: ScheduleItemData) {
                         brush = Brush.verticalGradient(
                             colors = listOf(Color(0xFFFF79A3), Color(0xFFFF4081))
                         ),
-                        shape = CircleShape
+                        shape = RoundedCornerShape(24.dp)
                     ),
                 contentAlignment = Alignment.Center
             ) {
@@ -261,7 +200,6 @@ data class ScheduleItemData(
     val type: String,
     val day: Int
 )
-
 
 @Preview(showBackground = true)
 @Composable

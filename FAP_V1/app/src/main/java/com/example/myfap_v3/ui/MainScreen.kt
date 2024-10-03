@@ -1,5 +1,6 @@
 package com.example.myfap_v3.ui
 
+import android.annotation.SuppressLint
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -35,16 +36,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(scheduleViewModel: ScheduleViewModel) {
     var selectedTab by remember { mutableStateOf(0) }
+
+    // Observe the selected date LiveData
     val selectedDate by scheduleViewModel.selectedDate.observeAsState(Calendar.getInstance())
-    val scheduleItemsForToday = scheduleViewModel.getScheduleForSelectedDate()
+
+    // Observe the schedule items LiveData
+    val scheduleItemsForToday by scheduleViewModel.scheduleItems.observeAsState(emptyList())
 
     Scaffold(
         containerColor = Color(0xFFF8F8F8),
-        bottomBar = { BottomNavBar(selectedTab) { selectedTab = it } }
+        bottomBar = {
+            BottomNavBar(selectedTab) { tabIndex ->
+                selectedTab = tabIndex
+
+            }
+        }
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
@@ -54,10 +65,15 @@ fun MainScreen(scheduleViewModel: ScheduleViewModel) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item { Header() }
-            item { WeekCalendar(onDateSelected = { date ->
-                scheduleViewModel.setSelectedDate(date)
-            }) }
-            item { ScheduleToday(scheduleItems = scheduleItemsForToday) }  // Pass scheduleItemsForToday
+            item {
+                WeekCalendar(
+                    selectedDate = selectedDate,
+                    onDateSelected = { date ->
+                        scheduleViewModel.setSelectedDate(date)
+                    }
+                )
+            }
+            item { ScheduleToday(scheduleItems = scheduleItemsForToday) } // Lấy danh sách mới từ ViewModel
             item { Reminder() }
         }
     }
@@ -109,11 +125,14 @@ fun Header() {
 }
 
 @Composable
-fun WeekCalendar(onDateSelected: (Calendar) -> Unit) {
+fun WeekCalendar(
+    selectedDate: Calendar, // Pass the selected date
+    onDateSelected: (Calendar) -> Unit
+) {
     var currentDate by remember { mutableStateOf(Calendar.getInstance()) }
-    var selectedDate by remember { mutableStateOf(currentDate.clone() as Calendar) }
+    var internalSelectedDate by remember { mutableStateOf(selectedDate.clone() as Calendar) } // Track internal selection
 
-    val weekDates = remember(currentDate) {
+    val weekDates = remember(internalSelectedDate) {
         (-3..3).map {
             val calendar = currentDate.clone() as Calendar
             calendar.add(Calendar.DAY_OF_YEAR, it)
@@ -160,10 +179,10 @@ fun WeekCalendar(onDateSelected: (Calendar) -> Unit) {
                     DayItemMain(
                         day = date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()) ?: "",
                         date = date.get(Calendar.DAY_OF_MONTH).toString(),
-                        isSelected = isSameDay(date, selectedDate),
+                        isSelected = isSameDay(date, internalSelectedDate),
                         onSelectDate = {
-                            selectedDate = date.clone() as Calendar
-                            onDateSelected(selectedDate)
+                            internalSelectedDate = date.clone() as Calendar
+                            onDateSelected(internalSelectedDate) // Update ViewModel with the selected date
                         }
                     )
                 }
@@ -171,8 +190,6 @@ fun WeekCalendar(onDateSelected: (Calendar) -> Unit) {
         }
     }
 }
-
-
 
 
 fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
