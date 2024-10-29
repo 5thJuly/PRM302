@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.transport.api)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -68,8 +69,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation ("androidx.compose.ui:ui:1.0.5")                // Core UI components
-    implementation ("androidx.compose.material:material:1.0.5")    // Material Design components like BottomNavigation
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.0.5") // Tooling support for preview
-    implementation ("androidx.activity:activity-compose:1.3.1")     // Jetpack Compose support for activities
+    implementation (libs.ui)                // Core UI components
+    implementation (libs.androidx.material)    // Material Design components like BottomNavigation
+    implementation (libs.ui.tooling.preview) // Tooling support for preview
+    implementation (libs.androidx.activity.compose.v131)     // Jetpack Compose support for activities
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
 }
