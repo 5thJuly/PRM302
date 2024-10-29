@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Existing colors remain unchanged -->
+    <color name="primary_color">#6200EE</color>
+    <color name="primary_variant_color">#3700B3</color>
+    <color name="on_primary_color">#FFFFFF</color>
+
+    <color name="secondary_color">#03DAC6</color>
+    <color name="secondary_variant_color">#018786</color>
+    <color name="on_secondary_color">#000000</color>
+
+    <color name="background_color">#FFFFFF</color>
+    <color name="surface_color">#FFFFFF</color>
+    <color name="error_color">#B00020</color>
+
+    <color name="on_background_color">#000000</color>
+    <color name="on_surface_color">#000000</color>
+    <color name="on_error_color">#FFFFFF</color>
+
+    <color name="primary_text_color">#212121</color>
+    <color name="secondary_text_color">#757575</color>
+    <color name="input_stroke_color">#2196F3</color>
+    <color name="hint_text_color">#9E9E9E</color>
+
+    <color name="radio_text_color">#424242</color>
+    <color name="radio_button_tint">#2196F3</color>
+
+    <color name="spinner_popup_background">#FFFFFF</color>
+
+    <color name="checkbox_text_color">@color/radio_text_color</color>
+    <color name="checkbox_tint">@color/primary_color</color>
+</resources>

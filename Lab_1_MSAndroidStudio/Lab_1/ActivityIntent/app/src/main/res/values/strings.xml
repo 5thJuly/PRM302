@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Activity Intent Demo</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="login">Login</string>
+    <string name="welcome">Welcome!</string>
+    <string name="close">CLOSE</string>
+</resources>

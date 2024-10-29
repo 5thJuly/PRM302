@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <activity
+        android:id="@+id/nav_home"
+        android:name="com.example.fap.MainActivity"
+        android:label="Main Activity" />
+
+    <fragment
+        android:id="@+id/weeklyTimetableFragment"
+        android:name="com.example.fap.WeeklyTimetableFragment"
+        android:label="Weekly Timetable" />
+
+    <fragment
+        android:id="@+id/examScheduleFragment"
+        android:name="com.example.fap.ExamScheduleFragment"
+        android:label="Exam Schedule" />
+
+</navigation>

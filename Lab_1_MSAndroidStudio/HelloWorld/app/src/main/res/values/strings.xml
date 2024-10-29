@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Hello World</string>
+    <string name="button_label_count">Count</string>
+    <string name="button_label_toast">Toast</string>
+    <string name="button_label_reset">Reset</string>
+    <string name="count_initial_value">0</string>
+    <string name="demo">Demo Application</string>
+    <string name="article_subtitle">Article Subtitle Of This Demo</string>
+    <string name="article_text">All of the contents of a ScrollView (such as a ViewGroup with View elements) occupy memory and the view hierarchy even if portions are not displayed on screen. This makes ScrollView useful for smoothly scrolling pages of free-form text, because the text is already in memory. However, a ScrollView with a ViewGroup with View elements can use up a lot of memory, which can affect the performance of the rest of your app.\n\nUsing nested instances of LinearLayout can also lead to an excessively deep view hierarchy, which can slow down performance. Nesting several instances of LinearLayout that use the android:layout_weight attribute can be especially expensive as each child View needs to be measured twice. Consider using flatter layouts such as RelativeLayout or GridLayout to improve performance.\n\nComplex layouts with ScrollView may suffer performance issues, especially with images. We recommend that you not use images within a ScrollView. To display long lists of items, or images, consider using a RecyclerView, which is covered in another lesson.</string>
+    <string name="toast_message">Hello Toast!</string>
+    <string name="reset_toast">Counter has been reset</string>
+    <string name="sensei_toast">Sensei!</string>
+</resources>

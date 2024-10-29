@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Activity Intent</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="welcome">Welcome!!</string>
+    <string name="close">LOGOUT</string>
+    <string name="register_title">Register New User</string>
+</resources>
